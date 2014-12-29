@@ -61,7 +61,7 @@ ITClicker.Actor.prototype.triggerAction=function() {
 ITClicker.Actor.prototype.actionEffect=function() {
 	var effectContainer=document.createElement('div');
 	effectContainer.className='clickZone-effectContainer';
-	effectContainer.innerHTML='effect';
+	effectContainer.innerHTML=this.getSentence();
 	
 	effectContainer.style.top=this.element.offsetTop+'px';
 	
@@ -83,6 +83,29 @@ ITClicker.Actor.prototype.actionEffect=function() {
 		jQuery(effectContainer).remove();
 	});
 }
+
+ITClicker.Actor.prototype.getSentence=function() {
+
+	var sentences=[
+		'Hello world',
+		'Parse error',
+		'while(true) {',
+		'Putin fait chier',
+		'print_r($data);',
+		'if(this.enable) {',
+		'return Math.random(',
+		'c\'est quoi cette merde !',
+		'for(var attribute in instance) {',
+
+	];
+
+	var index=Math.floor(Math.random()*sentences.length);
+	return sentences[index];
+
+
+
+}
+
 
 
 
