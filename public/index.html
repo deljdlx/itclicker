@@ -1,0 +1,329 @@
+<!doctype>
+<html>
+<head>
+<style>
+
+html, body {
+	margin:0;
+}
+
+.itclicker-clickZone {
+	position: absolute;
+}
+
+
+.clickZone-effectContainer {
+	position: absolute;
+	border: solid 1px #F00;
+}
+
+
+.itclicker-actor {
+	display: inline-block;
+	
+	margin-right: 32px;
+	margin-left: 32px;
+	
+	background-image:url('resource/image/coder.png');
+	width:105px;
+	height: 128px;
+	
+}
+
+
+
+
+
+.itclicker-project {
+	position: absolute;
+	border: solid 1px;
+}
+
+.itclicker-task {
+	position: relative;
+	border: solid 1px #FFF;
+	background-color: rgba(0,0,0, 0);
+	height: 10px;
+	opacity: 0.5;
+}
+
+.itclicker-task:first-child {
+	opacity: 1;
+	height: 64px;
+}
+
+
+
+
+
+.itclicker-ticket {
+	position: relative;
+	box-sizing: border-box;
+	float: left;
+	border-left: solid 2px #FFF;
+	height: 100%;
+	opacity: 0.7;
+}
+
+.itclicker-ticket:hover {
+	opacity: 1;
+}
+
+.itclicker-ticket:first-child {
+	border-left: none;
+}
+
+.itclicker-ticket-integration {
+	background-color: rgba(82, 86, 178, 1);
+}
+
+.itclicker-ticket-developpement {
+	background-color: rgba(255, 216, 197, 1);
+}
+
+.itclicker-ticket-database {
+	background-color: rgba(172, 176, 255, 1);
+}
+
+
+.itclicker-ticket-javascript {
+	background-color: rgba(143, 204, 117, 1);
+}
+.itclicker-ticket-sysadmin {
+	background-color: rgba(131, 178, 111, 1);
+}
+
+.itclicker-ticket-test {
+	background-color: rgba(103, 106, 178, 1);
+}
+
+
+
+
+
+.itclicker-openspace {
+	position: relative;
+	border-bottom: solid 5px #999;
+	height:128px;
+	background-image: url('resource/image/floor.png');
+	margin-top: 64px;
+}
+
+
+.itclicker-openspace .itclicker-clickContainer {
+	/*display:none;*/
+	float: left;
+	width:191;
+	background-color:rgba(255, 255, 255, 1);
+	height:100%;
+}
+
+.itclicker-openspace .itclicker-actorContainer {
+	
+	box-sizing: border-box;
+	border-bottom: solid 5px #999;
+	background-color:FFF;
+	height:30%;
+}
+
+.itclicker-clickButton {
+	width: 191px;
+	height: 180px; 
+	background-image: url('resource/image/clickbutton.png');
+}
+
+.itclicker-clickButton_down {
+	width: 191px;
+	height: 180px; 
+	background-image: url('resource/image/clickbutton_down.png');
+}
+
+.hover {
+	border: solid 10 px :#F00;
+}
+
+
+</style>
+</head>
+<body>
+
+
+
+
+</body>
+<script type='text/javascript' src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
+
+<link rel="stylesheet" href="resource/javascript/jquery-ui/jquery-ui.css">
+<script src="resource/javascript/jquery-ui/jquery-ui.js"></script>
+
+
+<script src="resource/javascript/itclicker/itclicker.js"></script>
+<script src="resource/javascript/itclicker/game.js"></script>
+<script src="resource/javascript/itclicker/clickzone.js"></script>
+<script src="resource/javascript/itclicker/openspace.js"></script>
+<script src="resource/javascript/itclicker/actor.js"></script>
+
+<script src="resource/javascript/itclicker/project.js"></script>
+<script src="resource/javascript/itclicker/task.js"></script>
+<script src="resource/javascript/itclicker/ticket.js"></script>
+
+
+<script>
+
+
+
+var game=new ITClicker.Game();
+
+var openspace=new ITClicker.OpenSpace(game);
+
+	var actor=new ITClicker.Actor(openspace);
+	openspace.addActor(actor);
+	
+	var actor=new ITClicker.Actor(openspace);
+	openspace.addActor(actor);
+	
+	var actor=new ITClicker.Actor(openspace);
+	openspace.addActor(actor);
+
+
+
+openspace.render(document.body);
+
+
+var openspace2=new ITClicker.OpenSpace(game);
+	var actor=new ITClicker.Actor(openspace2);
+	openspace2.addActor(actor);
+openspace2.render(document.body);
+
+
+
+var openspace3=new ITClicker.OpenSpace(game);
+	var actor=new ITClicker.Actor(openspace3);
+	openspace3.addActor(actor);
+	var actor=new ITClicker.Actor(openspace3);
+	openspace3.addActor(actor);
+	var actor=new ITClicker.Actor(openspace3);
+	openspace3.addActor(actor);
+openspace3.render(document.body);
+
+
+
+
+
+
+
+$(function() {
+	
+	
+
+	$( ".itclicker-actor" ).draggable({
+		appendTo: 'body',
+		helper: 'clone',
+		start: function(event, ui) {
+			this.style.opacity=0.5;
+		},
+		stop: function(event, ui) {
+			this.style.opacity=1;
+		}
+	});
+	
+	
+	$(".itclicker-openspace").droppable({
+		hoverClass: "hover",
+		drop: function( event, ui ) {
+			
+			jQuery(this).find('.itclicker-actorContainer').append(ui.draggable);
+			
+		
+			ui.draggable.get(0).component.setOpenSpace(this.component);
+			
+			
+			jQuery(ui.draggable).css('opacity', 1);
+		}
+	})
+
+	;
+});
+
+
+
+
+//exit();
+
+
+//actorElement.style.top='300px';
+//actorElement.style.left='300px';
+
+
+/*
+var project=new ITClicker.Project(game);
+project.createRandom(9);
+project.render(document.body);
+*/
+
+
+
+
+
+
+
+
+
+
+/*
+var project=new ITClicker.Project(game);
+	project.createRandomTask();
+	project.createRandomTask();
+	project.createRandomTask();
+	project.createRandomTask();
+project.render(document.body);
+*/
+
+
+
+
+/*
+var task=project.createTask();
+
+	task.createTicket('integration', 20);
+	task.createTicket('developpement', 20);
+	task.createTicket('database', 20);
+
+
+
+var task2=project.createTask();
+
+	task2.createTicket('integration', 20);
+	task2.createTicket('developpement', 20);
+	task2.createTicket('database', 20);
+
+
+
+project.render(document.body);
+
+
+
+
+var task2=new ITClicker.Task(project,50);
+task2.render();
+
+	var ticket=new ITClicker.Ticket(task2,'integration', 30);
+	ticket.render();
+	var ticket=new ITClicker.Ticket(task2,'database', 30);
+	ticket.render();
+	var ticket=new ITClicker.Ticket(task2,'developpement', 50);
+	ticket.render();
+*/
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

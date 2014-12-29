@@ -1,0 +1,4 @@
+ITClicker.Game=function()
+{
+
+}
