@@ -37,17 +37,31 @@ ITClicker.Actor.prototype.getElement=function() {
 		jQuery(this.element).attr('unselectable', 'on')
 			.css('user-select', 'none')
 			.on('selectstart', false);
+			
+		this.makeDraggable(this.element);
 	}
 	
 	
 	this.element.onclick=function() {
-	
 		this.triggerAction();
-		
 	}.bind(this);
 	
 	return this.element;
 }
+
+ITClicker.Actor.prototype.makeDraggable=function(element) {
+	$(element).draggable({
+		appendTo: 'body',
+		helper: 'clone',
+		start: function(event, ui) {
+			this.style.opacity=0.5;
+		},
+		stop: function(event, ui) {
+			this.style.opacity=1;
+		}
+	});
+}
+
 
 ITClicker.Actor.prototype.triggerAction=function() {
 

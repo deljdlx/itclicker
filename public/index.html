@@ -5,7 +5,6 @@
 
 html, body {
 	margin:0;
-	font-family: arial;
 }
 
 .itclicker-clickZone {
@@ -15,11 +14,7 @@ html, body {
 
 .clickZone-effectContainer {
 	position: absolute;
-	border: solid 1px #999;
-	border-radius: 3px;
-	padding: 3px;
-	background-color:#FFF;
-	font-size:11px;
+	border: solid 1px #F00;
 }
 
 
@@ -40,6 +35,7 @@ html, body {
 
 
 .itclicker-project {
+	background-color: #FFF;
 	position: absolute;
 	border: solid 1px;
 }
@@ -214,42 +210,12 @@ openspace3.render(document.body);
 
 
 
-
-
-
-$(function() {
-	
-	
-
-	$( ".itclicker-actor" ).draggable({
-		appendTo: 'body',
-		helper: 'clone',
-		start: function(event, ui) {
-			this.style.opacity=0.5;
-		},
-		stop: function(event, ui) {
-			this.style.opacity=1;
-		}
-	});
-	
-	
-	$(".itclicker-openspace").droppable({
-		hoverClass: "hover",
-		drop: function( event, ui ) {
-			
-			jQuery(this).find('.itclicker-actorContainer').append(ui.draggable);
-			
-		
-			ui.draggable.get(0).component.setOpenSpace(this.component);
-			
-			
-			jQuery(ui.draggable).css('opacity', 1);
-		}
-	})
-
-	;
-});
-
+var project=new ITClicker.Project(game);
+	project.createRandomTask();
+	project.createRandomTask();
+	project.createRandomTask();
+	project.createRandomTask();
+project.render(document.body);
 
 
 
@@ -276,12 +242,7 @@ project.render(document.body);
 
 
 /*
-var project=new ITClicker.Project(game);
-	project.createRandomTask();
-	project.createRandomTask();
-	project.createRandomTask();
-	project.createRandomTask();
-project.render(document.body);
+
 */
 
 

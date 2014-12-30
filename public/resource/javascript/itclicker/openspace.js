@@ -2,6 +2,8 @@ ITClicker.OpenSpace=function(game)
 {
 	this.game=game;
 	this.actors={};
+	
+	this.project={};
 }
 
 //ITClicker.OpenSpace.prototype.actors=[];
@@ -14,6 +16,12 @@ ITClicker.OpenSpace.prototype.addActor=function(actor) {
 ITClicker.OpenSpace.prototype.removeActor=function(actor) {
 
 	delete(this.actors[actor.getId()]);
+}
+
+
+
+ITClicker.OpenSpace.prototype.addProject=function(project) {
+	this.actors[project.getId()]=project;
 }
 
 
@@ -36,7 +44,11 @@ ITClicker.OpenSpace.prototype.getElement=function() {
 				jQuery(this.clickContainer).attr('unselectable', 'on')
 					.css('user-select', 'none')
 					.on('selectstart', false);
-			
+					
+					
+			this.projectContainer=document.createElement('div');
+			this.projectContainer.className='itclicker-projectContainer';
+				
 			
 
 			this.element.appendChild(this.clickContainer);
@@ -61,17 +73,27 @@ ITClicker.OpenSpace.prototype.getElement=function() {
 					}
 				});
 
-
-			
-
-
 			this.actorContainer=document.createElement('div');
 			this.actorContainer.className='itclicker-actorContainer';
 			this.element.appendChild(this.actorContainer);
+			
+			this.makeDropable(this.element);
 	}
 	
 	return this.element;
 }
+
+ITClicker.OpenSpace.prototype.makeDropable=function(element) {
+	$(element).droppable({
+		hoverClass: "hover",
+		drop: function( event, ui ) {
+			jQuery(this).find('.itclicker-actorContainer').append(ui.draggable);
+			ui.draggable.get(0).component.setOpenSpace(this.component);
+			jQuery(ui.draggable).css('opacity', 1);
+		}
+	});
+}
+
 
 
 ITClicker.OpenSpace.prototype.render=function(container) {

@@ -2,12 +2,25 @@ ITClicker.Project=function(game)
 {
 	this.game=game;
 	this.charge=100;
+	this.element=null;
+	
+	this.tasks=[];
+	
+	this.id=ITClicker.Actor.autoIncrement;
+	
+	ITClicker.Actor.autoIncrement++:
 	
 }
 
-ITClicker.Project.prototype.element=null;
-ITClicker.Project.prototype.tasks=[];
 
+
+
+ITClicker.Actor.autoIncrement=0;
+
+
+ITClicker.Project.prototype.getid=function() {
+	return this.id;
+}
 
 
 ITClicker.Project.prototype.createTask=function() {
