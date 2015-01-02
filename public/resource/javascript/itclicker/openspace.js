@@ -3,7 +3,11 @@ ITClicker.OpenSpace=function(game)
 	this.game=game;
 	this.actors={};
 	
-	this.project={};
+	this.projects={};
+	
+	this.projectContainer;
+	this.element;
+	this.actorContainer;
 }
 
 //ITClicker.OpenSpace.prototype.actors=[];
@@ -21,7 +25,9 @@ ITClicker.OpenSpace.prototype.removeActor=function(actor) {
 
 
 ITClicker.OpenSpace.prototype.addProject=function(project) {
-	this.actors[project.getId()]=project;
+	this.projects[project.getId()]=project;
+	
+	project.render(this.projectContainer);
 }
 
 
@@ -48,7 +54,7 @@ ITClicker.OpenSpace.prototype.getElement=function() {
 					
 			this.projectContainer=document.createElement('div');
 			this.projectContainer.className='itclicker-projectContainer';
-				
+		this.element.appendChild(this.projectContainer);
 			
 
 			this.element.appendChild(this.clickContainer);
@@ -70,6 +76,7 @@ ITClicker.OpenSpace.prototype.getElement=function() {
 				jQuery(button).click(function() {
 					for(var id in self.actors) {
 						self.actors[id].triggerAction();
+						self.applyEffort(self.actors[id].getEffortTick());
 					}
 				});
 
@@ -82,6 +89,24 @@ ITClicker.OpenSpace.prototype.getElement=function() {
 	
 	return this.element;
 }
+
+ITClicker.OpenSpace.prototype.applyEffort=function(effort) {
+	
+	for(var skill in effort) {
+		var effortInstance=effort[skill];
+		
+		for(var id in this.projects) {
+			var project=this.projects[id];
+			project.applyEffort(effortInstance);
+		}
+	}
+}
+
+
+
+
+
+
 
 ITClicker.OpenSpace.prototype.makeDropable=function(element) {
 	$(element).droppable({

@@ -1,24 +1,36 @@
-ITClicker.Project=function(game)
+ITClicker.Project=function(game, options)
 {
 	this.game=game;
 	this.charge=100;
 	this.element=null;
 	
-	this.tasks=[];
+	this.tasks={};
 	
 	this.id=ITClicker.Actor.autoIncrement;
+	ITClicker.Actor.autoIncrement++;
 	
-	ITClicker.Actor.autoIncrement++:
+	
+	this.options=this.defaultOptions;
+	
+	if(typeof(options)!=='undefined') {
+		for(var attribute in options) {
+			this.options[attribute]=options[attribute];
+		}
+	}
 	
 }
 
 
 
 
-ITClicker.Actor.autoIncrement=0;
+ITClicker.Project.prototype.defaultOptions={
+	name: 'Super projet'
+};
+
+ITClicker.Project.autoIncrement=0;
 
 
-ITClicker.Project.prototype.getid=function() {
+ITClicker.Project.prototype.getId=function() {
 	return this.id;
 }
 
@@ -28,6 +40,28 @@ ITClicker.Project.prototype.createTask=function() {
 	this.addTask(task);
 	return task;
 }
+
+
+ITClicker.Project.prototype.applyEffort=function(effort) {
+	
+	var task=this.getCurrentTask();
+	
+	if(task) {
+		task.applyEffort(effort);
+	}
+	
+}
+
+ITClicker.Project.prototype.getCurrentTask=function() {
+	for(var id in this.tasks) {
+		return this.tasks[id]
+	}
+	
+	return false;
+}
+
+
+
 
 ITClicker.Project.prototype.createRandomTask=function() {
 	var task=this.createTask();
@@ -48,13 +82,15 @@ ITClicker.Project.prototype.createRandomTask=function() {
 
 	var typeIndex=Math.floor(Math.random()*types.length);
 	var type=types[typeIndex]
+	
+	var level=Math.floor(Math.random()*99)+1;
 
-	if(typeof(tickets[typeIndex])=='undefined') {
-		tickets[typeIndex]=task.createTicket(type, charge);
-	}
-	else {
-		tickets[typeIndex].addCharge(charge);
-	}
+	//if(typeof(tickets[typeIndex])=='undefined') {
+		tickets[typeIndex]=task.createTicket(type, charge, level);
+	//}
+	//else {
+		//tickets[typeIndex].addCharge(charge);
+	//}
 	
 
 
@@ -95,10 +131,12 @@ ITClicker.Project.prototype.createRandom=function(nbTask) {
 
 
 ITClicker.Project.prototype.addTask=function(task) {
-	this.tasks.push(task);
+	this.tasks[task.getId()]=task;
 }
 
-
+ITClicker.Project.prototype.renderTask=function(task) {
+	this.taskContainer.appendChild(task.getElement());
+}
 
 
 ITClicker.Project.prototype.getElement=function() {
@@ -106,6 +144,18 @@ ITClicker.Project.prototype.getElement=function() {
 	if(!this.element) {
 		this.element=document.createElement('div');
 		this.element.className='itclicker-project';
+			var titleBloc=document.createElement('div');
+			titleBloc.className='name';
+			titleBloc.innerHTML=this.options.name;
+		this.element.appendChild(titleBloc);
+
+			this.taskContainer=document.createElement('div');
+			this.taskContainer.className='task';
+		this.element.appendChild(this.taskContainer);
+
+
+		
+		
 	}
 	return this.element;
 }
@@ -117,8 +167,8 @@ ITClicker.Project.prototype.render=function(container) {
 	var element=this.getElement();
 	this.container.appendChild(this.element);
 	
-	for(var i=0; i<this.tasks.length; i++) {
-		this.tasks[i].render();
+	for(var id in this.tasks) {
+		this.tasks[id].render();
 	}
 	
 	return this.element;

@@ -1,9 +1,31 @@
-ITClicker.Actor=function(openSpace)
+ITClicker.Actor=function(openSpace, options)
 {
 	this.openSpace=openSpace;
 	this.id=ITClicker.Actor.autoIncrement;
 	ITClicker.Actor.autoIncrement++;
+	
+	
+	this.options=this.defaultOptions;
+	if(typeof(options)!=='undefined') {
+		for(var attribute in options) {
+			this.options[attribute]=options[attribute];
+		}
+	}
 }
+
+ITClicker.Actor.prototype.defaultOptions={
+	competences: {
+		php : {
+			level: 1,
+			power: 5
+		},
+		css: {
+			level: 5,
+			power: 5
+		}
+	}
+}
+
 
 
 ITClicker.Actor.autoIncrement=0;
@@ -22,6 +44,10 @@ ITClicker.Actor.prototype.setOpenSpace=function(openSpace) {
 	openSpace.addActor(this);
 }
 
+
+ITClicker.Actor.prototype.getEffortTick=function() {
+	return this.options.competences;
+}
 
 
 
@@ -64,9 +90,6 @@ ITClicker.Actor.prototype.makeDraggable=function(element) {
 
 
 ITClicker.Actor.prototype.triggerAction=function() {
-
-	
-
 	this.actionEffect();
 }
 

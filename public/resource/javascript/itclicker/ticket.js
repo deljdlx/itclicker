@@ -1,13 +1,23 @@
-ITClicker.Ticket=function(task, type, charge)
+ITClicker.Ticket=function(task, type, charge, level)
 {
 	this.task=task;
 	this.charge=charge;
 	this.type=type;
+	this.element=null;
+	
+	this.level=level;
+	
+	this.id=ITClicker.Ticket.autoIncrement;
+	ITClicker.Ticket.autoIncrement++;
 }
 
 
 
-ITClicker.Ticket.prototype.element=null;
+ITClicker.Ticket.autoIncrement=0;
+
+ITClicker.Ticket.prototype.getId=function() {
+	return this.id;
+}
 
 
 ITClicker.Ticket.prototype.addCharge=function(charge) {
@@ -25,10 +35,5 @@ ITClicker.Ticket.prototype.getElement=function() {
 	return this.element
 }
 
-ITClicker.Ticket.prototype.render=function() {
-	var element=this.getElement();
-	this.task.getElement().appendChild(element);
-	return this.element;
-}
 
 

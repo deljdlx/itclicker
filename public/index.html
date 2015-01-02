@@ -5,6 +5,7 @@
 
 html, body {
 	margin:0;
+	font-family: arial;
 }
 
 .itclicker-clickZone {
@@ -14,7 +15,18 @@ html, body {
 
 .clickZone-effectContainer {
 	position: absolute;
-	border: solid 1px #F00;
+	
+	border: solid 2px #999;
+	border-radius: 10px;
+	font-size:11px;
+	padding: 3px;
+	padding:3px 10px 3px 10px;
+	background-color: rgba(100, 100, 100, 0.2);
+	
+	
+	
+	
+	
 }
 
 
@@ -36,25 +48,37 @@ html, body {
 
 .itclicker-project {
 	background-color: #FFF;
-	position: absolute;
+	position: relative;
 	border: solid 1px;
 }
+	.itclicker-project .name {
+		padding: 5px;
+		font-size: 18px;
+		font-weight: bold;
+	}
+
 
 .itclicker-task {
 	position: relative;
-	border: solid 1px #FFF;
 	background-color: rgba(0,0,0, 0);
-	height: 10px;
-	opacity: 0.5;
+	margin: 5px;
+	/*opacity: 0.5;*/
 }
 
+/*
 .itclicker-task:first-child {
 	opacity: 1;
 	height: 64px;
 }
+*/
 
 
-
+	.itclicker-task .ticketContainer {
+		position:relative;
+		border: solid 4px #999;
+		border-radius: 10px;
+		height: 10px;
+	}
 
 
 .itclicker-ticket {
@@ -63,7 +87,7 @@ html, body {
 	float: left;
 	border-left: solid 2px #FFF;
 	height: 100%;
-	opacity: 0.7;
+	/*opacity: 0.7;*/
 }
 
 .itclicker-ticket:hover {
@@ -112,11 +136,21 @@ html, body {
 
 
 .itclicker-openspace .itclicker-clickContainer {
-	/*display:none;*/
 	float: left;
 	width:191;
 	background-color:rgba(255, 255, 255, 1);
 	height:100%;
+}
+
+.itclicker-openspace .itclicker-projectContainer {
+	background-color:#FFF;
+	float: right;
+	border: solid 5px #999;
+	border-radius: 10px;
+	padding:10px;
+	height:100%;
+	margin-right: 10px;
+	width:300px;
 }
 
 .itclicker-openspace .itclicker-actorContainer {
@@ -185,10 +219,23 @@ var openspace=new ITClicker.OpenSpace(game);
 	
 	var actor=new ITClicker.Actor(openspace);
 	openspace.addActor(actor);
-
-
-
 openspace.render(document.body);
+
+
+var project=new ITClicker.Project(game, {
+	'name': 'It Clicker'
+});
+	project.createRandomTask();
+	project.createRandomTask();
+	project.createRandomTask();
+	project.createRandomTask();
+
+
+openspace.addProject(project);
+
+
+
+
 
 
 var openspace2=new ITClicker.OpenSpace(game);
@@ -210,12 +257,7 @@ openspace3.render(document.body);
 
 
 
-var project=new ITClicker.Project(game);
-	project.createRandomTask();
-	project.createRandomTask();
-	project.createRandomTask();
-	project.createRandomTask();
-project.render(document.body);
+//project.render(document.body);
 
 
 
