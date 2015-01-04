@@ -35,7 +35,6 @@ ITClicker.OpenSpace.prototype.addProject=function(project) {
 
 ITClicker.OpenSpace.prototype.getElement=function() {
 	if(!this.element) {
-	
 		this.element=document.createElement('div');
 		
 		this.element.component=this;
@@ -84,6 +83,15 @@ ITClicker.OpenSpace.prototype.getElement=function() {
 			this.actorContainer.className='itclicker-actorContainer';
 			this.element.appendChild(this.actorContainer);
 			
+			
+			
+			document.addEventListener('taskEnd', function (event) {
+				console.debug('ici');
+				console.debug(event);
+			});
+
+			
+			
 			this.makeDropable(this.element);
 	}
 	
@@ -92,8 +100,12 @@ ITClicker.OpenSpace.prototype.getElement=function() {
 
 ITClicker.OpenSpace.prototype.applyEffort=function(effort) {
 	
-	for(var skill in effort) {
-		var effortInstance=effort[skill];
+	for(var skillName in effort) {
+		var effortInstance=new ITClicker.Effort(
+			skillName,
+			effort[skillName].level,
+			effort[skillName].power
+		);
 		
 		for(var id in this.projects) {
 			var project=this.projects[id];
@@ -101,6 +113,9 @@ ITClicker.OpenSpace.prototype.applyEffort=function(effort) {
 		}
 	}
 }
+
+
+
 
 
 

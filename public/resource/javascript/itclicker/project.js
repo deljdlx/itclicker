@@ -61,6 +61,19 @@ ITClicker.Project.prototype.getCurrentTask=function() {
 }
 
 
+ITClicker.Project.prototype.detroyTask=function(task) {
+
+	this.game.addMoney(task.getValue());
+	
+
+	delete(this.tasks[task.getId()]);
+	
+	var finished=true;
+	for(var id in this.tasks) {
+		finished=false;
+		break;
+	}
+}
 
 
 ITClicker.Project.prototype.createRandomTask=function() {
@@ -68,12 +81,10 @@ ITClicker.Project.prototype.createRandomTask=function() {
 	
 
 	var types=[
-		'developpement',
-		'integration',
-		'database',
+		'css',
+		'php',
 		'javascript',
-		'sysadmin',
-		'test',
+		'html',
 	]
 	
 	var tickets={};

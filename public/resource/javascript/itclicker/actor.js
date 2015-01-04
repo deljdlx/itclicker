@@ -17,11 +17,19 @@ ITClicker.Actor.prototype.defaultOptions={
 	competences: {
 		php : {
 			level: 1,
-			power: 5
+			power: 1
 		},
 		css: {
 			level: 5,
-			power: 5
+			power: 1
+		},
+		javascript: {
+			level: 5,
+			power: 1
+		},
+		html: {
+			level: 5,
+			power: 1
 		}
 	}
 }
@@ -67,10 +75,11 @@ ITClicker.Actor.prototype.getElement=function() {
 		this.makeDraggable(this.element);
 	}
 	
-	
+	/*
 	this.element.onclick=function() {
 		this.triggerAction();
 	}.bind(this);
+	*/
 	
 	return this.element;
 }
