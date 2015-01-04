@@ -3,7 +3,7 @@ ITClicker.Game=function()
 	this.money=0;
 	
 	
-	this.companyName='Biniou corporate';
+	this.companyName='Biniou it ++';
 }
 
 

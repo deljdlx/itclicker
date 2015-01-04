@@ -67,6 +67,7 @@ ITClicker.Actor.prototype.getElement=function() {
 		this.element=document.createElement('div');
 		this.element.component=this;
 		this.element.className='itclicker-actor';
+		this.element.manager=this;
 
 		jQuery(this.element).attr('unselectable', 'on')
 			.css('user-select', 'none')

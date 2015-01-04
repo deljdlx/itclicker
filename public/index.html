@@ -243,7 +243,7 @@ html, body {
 	border: solid 2px #999;
 	border-radius:10px;
 	//background-color:rgba(255,255,255, 1);
-	background-color:#EEE;
+	background-color:#FAFAFA;
 	z-index:1000;
 	left:50%;
 	margin-left:-400px;
@@ -407,6 +407,12 @@ html, body {
 
 
 
+
+.itclicker-information {
+	font-size:12px;
+	font-weight: bold;
+}
+
 </style>
 </head>
 <body>
@@ -422,7 +428,7 @@ html, body {
 		<div class="itclicker-leftColumn">
 			<div class="itclicker-avatar">
 				<div class="itclicker-levelGaugeContainer">
-					<div class="itclicker-levelGauge" style="height:1%"></div>
+					<div class="itclicker-levelGauge" style="height:25%"></div>
 				</div>
 				<div class="itclicker-level">20</div>
 				<img src="resource/image/coder.png"/>
@@ -431,8 +437,8 @@ html, body {
 			
 				<div class="itclicker-informationContainer">
 					<div class="itclicker-title">Informations</div>
-					<div class="itclicker-information">Coût par tick : </div>
-					<div class="itclicker-information">Points d'effort : </div>
+					<div class="itclicker-information">Coût par tick : 0.5</div>
+					<div class="itclicker-information">Points d'effort : 300K</div>
 				</div>
 			
 				<div class="itclicker-talentContainer">
@@ -605,6 +611,7 @@ html, body {
 <script src="resource/javascript/itclicker/clickzone.js"></script>
 <script src="resource/javascript/itclicker/openspace.js"></script>
 <script src="resource/javascript/itclicker/actor.js"></script>
+<script src="resource/javascript/itclicker/actorpopup.js"></script>
 
 <script src="resource/javascript/itclicker/effort.js"></script>
 
