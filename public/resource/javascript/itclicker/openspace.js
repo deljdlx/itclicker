@@ -75,41 +75,87 @@ ITClicker.OpenSpace.prototype.getElement=function() {
 				jQuery(button).click(function() {
 					for(var id in self.actors) {
 						self.actors[id].triggerAction();
-						self.applyEffort(self.actors[id].getEffortTick());
+						
+						var action=self.actors[id].getEffortTick();
+						self.applyEffort(action);
 					}
 				});
+
+			this.ticketContainer=document.createElement('div');
+			this.ticketContainer.className='itclicker-ticketContainer';
+				this.ticketContainerContent=document.createElement('div');
+				this.ticketContainerContent.className='itclicker-ticketContainer-content';
+			this.ticketContainer.appendChild(this.ticketContainerContent);
+			
+			this.element.appendChild(this.ticketContainer);
+
 
 			this.actorContainer=document.createElement('div');
 			this.actorContainer.className='itclicker-actorContainer';
 			this.element.appendChild(this.actorContainer);
-			
-			
-			
-			document.addEventListener('taskEnd', function (event) {
-				console.debug('ici');
-				console.debug(event);
-			});
-
-			
-			
 			this.makeDropable(this.element);
 	}
 	
 	return this.element;
 }
 
-ITClicker.OpenSpace.prototype.applyEffort=function(effort) {
+ITClicker.OpenSpace.prototype.testTicket=function() {
+	
+	
+	var project=this.getCurrentProject();
+	var tickets=[];
+	
+	if(project) {
+		tickets=project.getCurrentTickets();
+		var i=0;
+		
+		var self=this;
+		
+		for(var id in tickets) {
+			var element=tickets[id].getAnimatedElement();
+			self.ticketContainerContent.appendChild(element);
+			
+			setTimeout(function() {
+				setTimeout(function() {
+					this.animate()
+				}.bind(this), 50);
+			}.bind(tickets[id]), 1700*i);
+			
+			i++;
+		}
+		
+	}
+	
+	
+	//this.ticketContainer.appendChild(ticketElement);
+
+}
+
+
+ITClicker.OpenSpace.prototype.getCurrentProject=function() {
+	for(var id in this.projects) {
+		return this.projects[id];
+	}
+	return false;
+}
+
+
+ITClicker.OpenSpace.prototype.applyEffort=function(action) {
+	
+	var effort=action.effort;
 	
 	for(var skillName in effort) {
 		var effortInstance=new ITClicker.Effort(
 			skillName,
 			effort[skillName].level,
-			effort[skillName].power
+			effort[skillName].power,
+			action.actor
 		);
 		
 		for(var id in this.projects) {
 			var project=this.projects[id];
 			project.applyEffort(effortInstance);
+			break;
 		}
 	}
 }

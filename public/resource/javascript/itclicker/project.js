@@ -43,13 +43,19 @@ ITClicker.Project.prototype.createTask=function() {
 
 
 ITClicker.Project.prototype.applyEffort=function(effort) {
-	
 	var task=this.getCurrentTask();
 	
 	if(task) {
 		task.applyEffort(effort);
 	}
-	
+}
+
+ITClicker.Project.prototype.getCurrentTickets=function() {
+	var task=this.getCurrentTask();
+	if(task) {
+		return task.getTickets();
+	}
+	return [];
 }
 
 ITClicker.Project.prototype.getCurrentTask=function() {
@@ -105,7 +111,9 @@ ITClicker.Project.prototype.createRandomTask=function() {
 	
 
 
-	var nbTicket=Math.floor(Math.random()*5);
+	var nbTicket=Math.floor(Math.random()*5)+10;
+	
+	nbTicket=8;
 
 
 	for(var i=0; i<nbTicket; i++) {
@@ -116,7 +124,7 @@ ITClicker.Project.prototype.createRandomTask=function() {
 			var typeIndex=Math.floor(Math.random()*types.length);
 			var type=types[typeIndex]
 		
-			if(typeof(tickets[typeIndex])=='undefined') {
+			if(typeof(tickets[typeIndex])=='undefined' || 1) {
 				tickets[typeIndex]=task.createTicket(type, charge);
 			}
 			else {

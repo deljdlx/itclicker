@@ -30,6 +30,10 @@ ITClicker.Task=function(project)
 ITClicker.Task.autoIncrement=0;
 
 
+ITClicker.Task.prototype.getTickets=function() {
+	return this.tickets;
+}
+
 
 ITClicker.Task.prototype.defaultOptions={
 	name: 'Tâche'
@@ -48,7 +52,9 @@ ITClicker.Task.prototype.applyEffort=function(effort) {
 
 	for(var id in this.tickets) {
 		var ticket=this.tickets[id];
-		ticket.applyEffort(effort);
+		if(ticket.applyEffort(effort)) {
+			break;
+		}
 	}
 }
 

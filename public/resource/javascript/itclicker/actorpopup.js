@@ -6,8 +6,6 @@ ITClicker.ActorPopup=function(actor)
 
 ITClicker.ActorPopup.bind=function(node) {
 	var object=node.manger;
-	
-	console.debug(node);
 }
 
 

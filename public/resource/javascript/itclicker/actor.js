@@ -54,9 +54,17 @@ ITClicker.Actor.prototype.setOpenSpace=function(openSpace) {
 
 
 ITClicker.Actor.prototype.getEffortTick=function() {
-	return this.options.competences;
+	return {
+		actor: this,
+		effort: this.options.competences
+	};
 }
 
+ITClicker.Actor.prototype.animateEffort=function(ticket) {
+	var fire=new ITClicker.Fire(this, ticket);
+	document.body.appendChild(fire.getElement());
+	fire.animate();
+}
 
 
 
@@ -76,12 +84,6 @@ ITClicker.Actor.prototype.getElement=function() {
 		this.makeDraggable(this.element);
 	}
 	
-	/*
-	this.element.onclick=function() {
-		this.triggerAction();
-	}.bind(this);
-	*/
-	
 	return this.element;
 }
 
@@ -100,7 +102,7 @@ ITClicker.Actor.prototype.makeDraggable=function(element) {
 
 
 ITClicker.Actor.prototype.triggerAction=function() {
-	this.actionEffect();
+	//this.actionEffect();
 }
 
 
