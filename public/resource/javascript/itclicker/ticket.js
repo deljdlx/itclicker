@@ -62,17 +62,15 @@ ITClicker.Ticket.prototype.testEffort=function(effort) {
 
 ITClicker.Ticket.prototype.destroy=function() {
 	this.task.destroyTicket(this);
-	
 	jQuery(this.element).remove();
 	jQuery(this.animatedElement).remove();
 }
 
 
 ITClicker.Ticket.prototype.updateElement=function() {
-	
-	this.gaugeElement.style.height=100-(this.charge/this.maxCharge)*100+'%';
-
-	//this.element.style.width=this.charge+'px';
+	if(this.gaugeElement) {
+		this.gaugeElement.style.height=100-(this.charge/this.maxCharge)*100+'%';
+	}
 }
 
 ITClicker.Ticket.prototype.getAnimatedElement=function() {

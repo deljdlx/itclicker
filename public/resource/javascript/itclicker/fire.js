@@ -12,31 +12,34 @@ ITClicker.Fire.prototype.animate=function() {
 	var ticketElement=this.ticket.animatedElement;
 	var offsets=jQuery(ticketElement).offset();
 
+	if(ticketElement) {
 
-	this.element.style.left=
-		offsets.left+
-		(ticketElement.offsetWidth/2)
-		+(this.element.offsetWidth/2)
-		+'px';
-	
-
-	this.element.style.top=
-		offsets.top+
-		(ticketElement.offsetHeight/2)
-		-(this.element.offsetHeight/2)
-		+'px';
-
-	this.element.addEventListener('transitionend', function() {
-	
-		jQuery(ticketElement).addClass('fire');
-		setTimeout(function() {
-			jQuery(ticketElement).removeClass('fire');
-		}, 100);
+		this.element.style.left=
+			offsets.left+
+			(ticketElement.offsetWidth/2)
+			+(this.element.offsetWidth/2)
+			+'px';
 		
-		jQuery(this.element).remove();
+
+		this.element.style.top=
+			offsets.top+
+			(ticketElement.offsetHeight/2)
+			-(this.element.offsetHeight/2)
+			+'px';
+
+		this.element.addEventListener('transitionend', function() {
 		
-	}.bind(this), false);
-	
+			jQuery(ticketElement).addClass('fire');
+			setTimeout(function() {
+				jQuery(ticketElement).removeClass('fire');
+			}, 100);
+			
+			jQuery(this.element).remove();
+			
+			delete(this);
+			
+		}.bind(this), false);
+	}
 }
 
 
