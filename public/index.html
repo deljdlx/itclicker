@@ -23,26 +23,29 @@ html, body {
 	padding: 3px;
 	padding:3px 10px 3px 10px;
 	background-color: rgba(100, 100, 100, 0.2);
-	
-	
-	
-	
-	
 }
 
 
+
+
+
+
 .itclicker-actor {
+	position: relative;
 	display: inline-block;
 	
 	margin-right: 32px;
 	margin-left: 32px;
 	margin-top:-50px;
-	
-	background-image:url('resource/image/coder.png');
 	width:105px;
 	height: 128px;
 	z-index:2;
-	
+}
+
+.itclicker-actorImage {
+	height:100%;
+	width:100%;
+	background-image:url('resource/image/coder.png');
 }
 
 
@@ -86,7 +89,7 @@ html, body {
 		
 	}
 
-
+/*
 .itclicker-ticket {
 	background-color: rgba(255,0,0,0.3);
 	position: relative;
@@ -103,10 +106,12 @@ html, body {
 .itclicker-ticket:hover {
 	opacity: 1;
 }
-
 .itclicker-ticket:first-child {
 	border-left: none;
 }
+*/
+
+
 
 .itclicker-ticket-integration {
 	background-color: rgba(82, 86, 178, 1);
@@ -163,6 +168,20 @@ html, body {
 
 
 
+.itclicker-project-gaugeContainer {
+	height: 10px;
+	background-color:#0F0;
+	width:100%;
+	border-bottom: solid 1px #666;
+	position: relative;
+}
+	.itclicker-project-gauge {
+		float: right;
+		height:100%;
+		width:0;
+		background-color:#FFF;
+	}
+
 
 .itclicker-openspace {
 	position: auto;
@@ -174,9 +193,9 @@ html, body {
 .itclicker-openspace .itclicker-ticketContainer {
 	position: relative;
 	background-color:#EEE;
-	height:110px;
+	height:120px;
 	overflow:hidden;
-	padding-left: 200px;
+	padding-left: 190px;
 }
 
 .itclicker-ticketContainer-content {
@@ -192,7 +211,7 @@ html, body {
 	width:52px;
 	height:57px;
 	box-sizing: border-box;
-	margin-top:10px;
+	margin-top:3px;
 	border-left: none;
 	background-color: transparent;
 	background-image: url(resource/image/ticket.png);
@@ -504,7 +523,31 @@ html, body {
 
 
 
+.itclicker-actor-loading {
+	opacity: 0.7;
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  filter: grayscale(100%);
+  filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); 
+}
+
+
+
+.itclicker-actor-loaderContainer {
+	position: absolute;
+	/*border: solid 1px #F00;*/
+	width:40px;
+	height:40px;
+	top: 13px;
+	left:42px;
+}
+
 </style>
+
+
+
 </head>
 <body>
 
@@ -694,7 +737,10 @@ html, body {
 <script type='text/javascript' src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
 
 <link rel="stylesheet" href="resource/javascript/jquery-ui/jquery-ui.css">
+
 <script src="resource/javascript/jquery-ui/jquery-ui.js"></script>
+
+<script src="resource/javascript/progressbar/dist/circle-progress.js"></script>
 
 
 <script src="resource/javascript/itclicker/itclicker.js"></script>
@@ -745,7 +791,7 @@ var project=new ITClicker.Project(game, {
 
 openspace.addProject(project);
 
-openspace.testTicket();
+openspace.startProject();
 
 
 

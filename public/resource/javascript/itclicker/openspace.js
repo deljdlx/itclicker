@@ -37,7 +37,7 @@ ITClicker.OpenSpace.prototype.getElement=function() {
 	if(!this.element) {
 		this.element=document.createElement('div');
 		
-		this.element.component=this;
+		this.element.manager=this;
 		
 		
 		this.element.className='itclicker-openspace';
@@ -74,10 +74,15 @@ ITClicker.OpenSpace.prototype.getElement=function() {
 				
 				jQuery(button).click(function() {
 					for(var id in self.actors) {
-						self.actors[id].triggerAction();
-						
-						var action=self.actors[id].getEffortTick();
-						self.applyEffort(action);
+					
+						if(self.actors[id].isReady()) {
+							self.actors[id].triggerAction();
+							var action=self.actors[id].getEffortTick();
+							self.applyEffort(action);
+						}
+						else {
+
+						}
 					}
 				});
 
@@ -99,37 +104,14 @@ ITClicker.OpenSpace.prototype.getElement=function() {
 	return this.element;
 }
 
-ITClicker.OpenSpace.prototype.testTicket=function() {
-	
-	
+ITClicker.OpenSpace.prototype.startProject=function() {
 	var project=this.getCurrentProject();
-	var tickets=[];
-	
 	if(project) {
-		tickets=project.getCurrentTickets();
-		var i=0;
-		
-		var self=this;
-		
-		for(var id in tickets) {
-			var element=tickets[id].getAnimatedElement();
-			self.ticketContainerContent.appendChild(element);
-			
-			setTimeout(function() {
-				setTimeout(function() {
-					this.animate()
-				}.bind(this), 50);
-			}.bind(tickets[id]), 1700*i);
-			
-			i++;
-		}
-		
+		project.start(this);
 	}
-	
-	
-	//this.ticketContainer.appendChild(ticketElement);
-
 }
+
+
 
 
 ITClicker.OpenSpace.prototype.getCurrentProject=function() {
@@ -174,8 +156,10 @@ ITClicker.OpenSpace.prototype.makeDropable=function(element) {
 		hoverClass: "hover",
 		drop: function( event, ui ) {
 			jQuery(this).find('.itclicker-actorContainer').append(ui.draggable);
-			ui.draggable.get(0).component.setOpenSpace(this.component);
+			ui.draggable.get(0).manager.setOpenSpace(this.manager);
 			jQuery(ui.draggable).css('opacity', 1);
+			
+			ui.draggable.get(0).manager.loading();
 		}
 	});
 }
@@ -192,6 +176,8 @@ ITClicker.OpenSpace.prototype.render=function(container) {
 
 	for(var id in this.actors) {
 		this.actors[id].render(this.actorContainer);
+		
+		
 	}
 
 

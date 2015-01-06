@@ -45,8 +45,16 @@ ITClicker.Fire.prototype.animate=function() {
 			
 		}.bind(this), false);
 	}
+	else {
+		this.destroy();
+	}
 }
 
+ITClicker.Fire.prototype.destroy=function() {
+	jQuery(this.element).remove();
+	delete(this.ticket);
+	delete(this.actor);
+}
 
 ITClicker.Fire.prototype.getElement=function() {
 	if(!this.element) {

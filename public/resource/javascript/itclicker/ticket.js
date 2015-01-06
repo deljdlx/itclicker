@@ -19,6 +19,9 @@ ITClicker.Ticket=function(task, type, charge, level)
 	this.animationRange=0;
 	this.speed=20;
 	this.pixelPerSecond=0;
+	
+	
+	this.started=false;
 }
 
 
@@ -37,25 +40,49 @@ ITClicker.Ticket.prototype.getValue=function() {
 	return this.value;
 }
 
+ITClicker.Ticket.prototype.isStarted=function() {
+	return this.started;
+}
+
 
 ITClicker.Ticket.prototype.applyEffort=function(effort) {
 
-	if(this.testEffort(effort)) {
-	
-		effort.getActor().animateEffort(this);
-	
+	if(this.testEffort(effort) && this.started) {
+
 		this.charge-=effort.getPower();
 		
 		effort.setPower(0);
 		this.updateElement();
-		if(this.charge<=0) {
+		
+		
+		if(this.charge>0) {
+			effort.getActor().animateEffort(this);
+		}
+		else {
 			this.destroy();
 		}
 		return true;
 	}
+	return false;
 }
 
 
+
+
+
+ITClicker.Ticket.prototype.start=function(openSpace) {
+
+	var element=this.getAnimatedElement();
+	element.style.opacity=0;
+	openSpace.ticketContainerContent.appendChild(element);
+	this.animatedElement.style.opacity=1;
+	
+	this.started=true;
+	
+	setTimeout(function() {
+		this.animate()
+	}.bind(this), 10);
+}
 
 
 ITClicker.Ticket.prototype.addCharge=function(charge) {
@@ -115,24 +142,42 @@ ITClicker.Ticket.prototype.getAnimatedElement=function() {
 		this.gaugeElement=ticketGaugeElement;
 		
 		this.animatedElement.addEventListener('transitionend', function() {
-			this.animatedElement.style.transition='none';
-			this.animatedElement.style.left='0px';
-			setTimeout(function() {
-				this.animatedElement.style.transition='left '+this.speed+'s linear';
-				this.animatedElement.style.left='100%';
-			}.bind(this), 100);
+			if(this.started) {
+				this.animatedElement.style.transition='none';
+				this.animatedElement.style.left='0px';
+				setTimeout(function() {
+					this.animatedElement.style.transition='left '+this.speed+'s linear';
+					this.animatedElement.style.left='100%';
+				}.bind(this), 100);
+			}
 		}.bind(this), false);
 	}
 	return this.animatedElement;
 }
 
 ITClicker.Ticket.prototype.animate=function() {
+
+	if(!this.started) {
+		return false;
+	}
+	
 	if(this.animatedElement.parentNode) {
 		this.animationRange=this.animatedElement.parentNode.offsetWidth;
 		this.pixelPerSecond=this.animationRange/this.speed;
 	}
 	this.animatedElement.style.left='100%';
 }
+
+
+ITClicker.Ticket.prototype.stop=function() {
+	
+	this.started=false;
+
+	if(this.animatedElement) {
+		this.animatedElement.style.left=getComputedStyle(this.animatedElement).left;
+	}
+}
+
 
 
 ITClicker.Ticket.prototype.getElement=function() {

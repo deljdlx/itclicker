@@ -1,10 +1,15 @@
 ITClicker.Game=function()
 {
 	this.money=0;
-	
-	
 	this.companyName='Biniou it ++';
 }
+
+
+/*
+ITClicker.Game.prototype.launch=function() {
+}
+*/
+
 
 
 ITClicker.Game.prototype.addMoney=function(value) {

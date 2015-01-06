@@ -5,6 +5,9 @@ ITClicker.Actor=function(openSpace, options)
 	ITClicker.Actor.autoIncrement++;
 	
 	
+	this.ready=false;
+	
+	
 	this.options=this.defaultOptions;
 	if(typeof(options)!=='undefined') {
 		for(var attribute in options) {
@@ -14,6 +17,8 @@ ITClicker.Actor=function(openSpace, options)
 }
 
 ITClicker.Actor.prototype.defaultOptions={
+
+	loadingTime: 15000,
 	competences: {
 		php : {
 			level: 1,
@@ -73,9 +78,16 @@ ITClicker.Actor.prototype.getElement=function() {
 	if(!this.element) {
 		
 		this.element=document.createElement('div');
-		this.element.component=this;
+		this.element.manager=this;
 		this.element.className='itclicker-actor';
 		this.element.manager=this;
+			this.actorContainer=document.createElement('div');
+			this.actorContainer.className='itclicker-actorImage';
+		this.element.appendChild(this.actorContainer);
+		
+			this.loaderContainer=document.createElement('div');
+			this.loaderContainer.className='itclicker-actor-loaderContainer';
+		this.element.appendChild(this.loaderContainer);
 
 		jQuery(this.element).attr('unselectable', 'on')
 			.css('user-select', 'none')
@@ -88,10 +100,14 @@ ITClicker.Actor.prototype.getElement=function() {
 }
 
 ITClicker.Actor.prototype.makeDraggable=function(element) {
+	var self=this;
 	$(element).draggable({
 		appendTo: 'body',
 		helper: 'clone',
 		start: function(event, ui) {
+			if(!self.isReady()) {
+				return false;
+			}
 			this.style.opacity=0.5;
 		},
 		stop: function(event, ui) {
@@ -155,6 +171,45 @@ ITClicker.Actor.prototype.getSentence=function() {
 
 }
 
+ITClicker.Actor.prototype.isReady=function() {
+	return this.ready;
+}
+
+
+ITClicker.Actor.prototype.loading=function() {
+
+	this.ready=false;
+
+	jQuery(this.actorContainer).addClass('itclicker-actor-loading');
+	var self=this;
+	//jQuery(self.loaderContainer).empty();
+	jQuery(self.loaderContainer).show();
+	
+	if(!this.loader) {
+		this.loader=$(this.loaderContainer).circleProgress({
+			startAngle:-Math.PI/2,
+			value: 1,
+			thickness: 5,
+			size: 50,
+			animation: {
+				duration: this.options.loadingTime,
+				ease: 'linear'
+			},
+			fill: {
+				gradient: ["blue"]
+			}
+		});
+		
+		this.loader.on('circle-animation-end', function(event) {
+			jQuery(self.loaderContainer).fadeOut();
+			$(self.actorContainer).removeClass('itclicker-actor-loading');
+			self.ready=true;
+		});
+	}
+	else {
+		this.loader.circleProgress('redraw');
+	}
+}
 
 
 
@@ -162,5 +217,21 @@ ITClicker.Actor.prototype.render=function(container) {
 	var element=this.getElement();
 	this.container=container;
 	container.appendChild(element);
+	
+	
+	this.loading();
+	
 	return this.element;
 }
+
+
+
+
+
+
+
+
+
+
+
+

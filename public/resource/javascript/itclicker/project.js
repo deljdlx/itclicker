@@ -4,6 +4,11 @@ ITClicker.Project=function(game, options)
 	this.charge=100;
 	this.element=null;
 	
+	
+	this.duration=60;
+	this.elapsed=0;
+	
+	
 	this.tasks={};
 	
 	this.id=ITClicker.Actor.autoIncrement;
@@ -18,9 +23,81 @@ ITClicker.Project=function(game, options)
 		}
 	}
 	
+	
+	this.started=false;
+	
+	this.timer=null;
+	
+}
+
+ITClicker.Project.prototype.getGauge=function() {
+		this.gaugeContainer=document.createElement('div');
+		this.gaugeContainer.className='itclicker-project-gaugeContainer';
+			this.gauge=document.createElement('div');
+			this.gauge.className='itclicker-project-gauge';
+			this.gauge.style.transition='all '+this.duration+'s linear';
+		this.gaugeContainer.appendChild(this.gauge);
+		this.gaugeContainer.style.transition='all '+this.duration+'s linear';
+		return this.gaugeContainer;
 }
 
 
+ITClicker.Project.prototype.start=function(openSpace) {
+
+		var projectGauge=this.getGauge();
+		
+		openSpace.ticketContainerContent.appendChild(projectGauge);
+	
+		tickets=this.getCurrentTickets();
+		var i=0;
+		
+		this.started=true;
+		
+		var self=this;
+		
+		for(var id in tickets) {
+			setTimeout(function() {
+				if(self.started) {
+					this.start(openSpace);
+				}
+			}.bind(tickets[id]), i*1700);
+			i++;
+		}
+
+
+
+	setTimeout(function() {
+		this.gaugeContainer.style.backgroundColor='#F00';
+		this.gauge.style.width='100%';
+		this.timer=setInterval(function() {
+			if(this.elapsed<this.duration) {
+				this.elapsed+=1;
+				this.loop();
+			}
+			else {
+				clearInterval(this.timer);
+				this.end();
+			}
+		}.bind(this), 1000);
+	}.bind(this), 10);
+}
+
+ITClicker.Project.prototype.loop=function() {
+	console.debug(this.elapsed);
+}
+
+ITClicker.Project.prototype.end=function() {
+	
+	this.started=false;
+	var tickets=this.getCurrentTickets();
+	
+	
+	for(var id in tickets) {
+		tickets[id].stop();
+	}
+	
+	console.debug('finished');
+}
 
 
 ITClicker.Project.prototype.defaultOptions={
@@ -57,6 +134,20 @@ ITClicker.Project.prototype.getCurrentTickets=function() {
 	}
 	return [];
 }
+
+ITClicker.Project.prototype.getCurrentStartedTickets=function() {
+	var tickets=this.getCurrentTickets();
+	var startedTickets={};
+	for(var id in tickets) {
+		if(tickets[id].isStarted) {
+			startedTickets[id]=tickets[id];
+		}
+	}
+	return startedTickets;
+}
+
+
+
 
 ITClicker.Project.prototype.getCurrentTask=function() {
 	for(var id in this.tasks) {
@@ -95,7 +186,7 @@ ITClicker.Project.prototype.createRandomTask=function() {
 	
 	var tickets={};
 
-	var charge=Math.random()*70+30;
+	var charge=Math.random()*70+500;
 
 	var typeIndex=Math.floor(Math.random()*types.length);
 	var type=types[typeIndex]
@@ -118,7 +209,7 @@ ITClicker.Project.prototype.createRandomTask=function() {
 
 	for(var i=0; i<nbTicket; i++) {
 	
-		var charge=Math.random()*100;
+		var charge=Math.random()*100+400;
 		
 		if(charge>10) {
 			var typeIndex=Math.floor(Math.random()*types.length);

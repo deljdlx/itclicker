@@ -53,7 +53,7 @@ ITClicker.Task.prototype.applyEffort=function(effort) {
 	for(var id in this.tickets) {
 		var ticket=this.tickets[id];
 		if(ticket.applyEffort(effort)) {
-			break;
+			return ticket;
 		}
 	}
 }
