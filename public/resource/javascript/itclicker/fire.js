@@ -4,10 +4,15 @@ ITClicker.Fire=function(actor, ticket)
 	this.ticket=ticket;
 
 	this.element=null;
+	this.speed=0.4;
 
 }
 
 ITClicker.Fire.prototype.animate=function() {
+
+
+	var ticketLeftPosition=this.ticket.getPositionIn(this.speed);
+
 
 	var ticketElement=this.ticket.animatedElement;
 	var offsets=jQuery(ticketElement).offset();
@@ -15,7 +20,7 @@ ITClicker.Fire.prototype.animate=function() {
 	if(ticketElement) {
 
 		this.element.style.left=
-			offsets.left+
+			ticketLeftPosition+
 			(ticketElement.offsetWidth/2)
 			+(this.element.offsetWidth/2)
 			+'px';
@@ -47,6 +52,10 @@ ITClicker.Fire.prototype.getElement=function() {
 	if(!this.element) {
 		this.element=document.createElement('div');
 		this.element.className='itclicker-fire';
+
+
+		this.element.style.transitionDuration=this.speed+'s';
+
 		
 		var actorElement=this.actor.getElement();
 		

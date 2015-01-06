@@ -7,19 +7,27 @@ ITClicker.Ticket=function(task, type, charge, level)
 	this.element=null;
 	this.animatedElement=null;
 	
+	
 	this.level=level;
 	
 	this.value=100;
 	
 	this.id=ITClicker.Ticket.autoIncrement;
 	ITClicker.Ticket.autoIncrement++;
+
+
+	this.animationRange=0;
+	this.speed=20;
+	this.pixelPerSecond=0;
 }
 
 
 
 ITClicker.Ticket.autoIncrement=0;
 
-
+ITClicker.Ticket.prototype.getType=function() {
+	return this.type;
+}
 
 ITClicker.Ticket.prototype.getId=function() {
 	return this.id;
@@ -32,9 +40,7 @@ ITClicker.Ticket.prototype.getValue=function() {
 
 ITClicker.Ticket.prototype.applyEffort=function(effort) {
 
-
 	if(this.testEffort(effort)) {
-	
 	
 		effort.getActor().animateEffort(this);
 	
@@ -48,6 +54,9 @@ ITClicker.Ticket.prototype.applyEffort=function(effort) {
 		return true;
 	}
 }
+
+
+
 
 ITClicker.Ticket.prototype.addCharge=function(charge) {
 	this.charge+=charge;
@@ -73,10 +82,22 @@ ITClicker.Ticket.prototype.updateElement=function() {
 	}
 }
 
+
+ITClicker.Ticket.prototype.getPositionIn=function(second) {
+	if(this.animatedElement) {
+		var offsets=jQuery(this.animatedElement).offset();
+		return parseInt(offsets.left)+this.pixelPerSecond*second;
+	}
+	else  {
+		return false;
+	}
+}
+
+
 ITClicker.Ticket.prototype.getAnimatedElement=function() {
 	if(!this.animatedElement) {
 		ticketElement=document.createElement('div');
-		ticketElement.className='itclicker-ticket';
+		ticketElement.className='itclicker-ticket itclicker-ticket-'+this.type;
 		
 			ticketGaugeContainerElement=document.createElement('div');
 			ticketGaugeContainerElement.className='itclicker-ticket-gaugeContainer';
@@ -88,7 +109,7 @@ ITClicker.Ticket.prototype.getAnimatedElement=function() {
 		
 		ticketElement.style.left='0';
 		
-		ticketElement.style.transition='left 20s linear';
+		ticketElement.style.transition='left '+this.speed+'s linear';
 		
 		this.animatedElement=ticketElement;
 		this.gaugeElement=ticketGaugeElement;
@@ -97,16 +118,19 @@ ITClicker.Ticket.prototype.getAnimatedElement=function() {
 			this.animatedElement.style.transition='none';
 			this.animatedElement.style.left='0px';
 			setTimeout(function() {
-				this.animatedElement.style.transition='left 20s linear';
+				this.animatedElement.style.transition='left '+this.speed+'s linear';
 				this.animatedElement.style.left='100%';
 			}.bind(this), 100);
 		}.bind(this), false);
-		
 	}
 	return this.animatedElement;
 }
 
 ITClicker.Ticket.prototype.animate=function() {
+	if(this.animatedElement.parentNode) {
+		this.animationRange=this.animatedElement.parentNode.offsetWidth;
+		this.pixelPerSecond=this.animationRange/this.speed;
+	}
 	this.animatedElement.style.left='100%';
 }
 
